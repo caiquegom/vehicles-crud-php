@@ -1,0 +1,34 @@
+version: '3.8'
+name: desafio-php
+services:
+  app:
+    image: php:8.1-apache
+    container_name: php-app
+    volumes:
+      - ./public:/var/www/html
+      - ./php.ini:/usr/local/etc/php/php.ini
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0
+    container_name: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: php_test
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    volumes:
+      - db_data:/var/lib/mysql
+
+      # O que faz? -> Vai montar o arquivo SQL automaticamente na primeira inicializacao do container.
+      # O que está ocorrendo?
+      # -> está procurando o arquivo desafio_php.sql e montando o mesmo arquivo dentro do diretorio docker-entrypoint-initdb.d do container
+      - ./desafio_php.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "3306:3306"
+
+volumes:
+  db_data:
