@@ -1,4 +1,4 @@
-# Desafio para Desenvolvedor Jr
+# Desafio para estudo
 
 ## Instruções:
 
